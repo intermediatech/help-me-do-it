@@ -1,0 +1,17 @@
+#!/bin/bash
+if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]
+  then
+    echo "./img_resize <full> <thumbs> <size>"
+    echo "Example: ./img_resize full thumbs 300x200"
+fi
+
+full_dir=$1
+thumb_dir=$2
+size=$3
+len=$((${#full_dir}+1))
+
+for file in "$full_dir"/*
+do
+	echo "$file"
+	convert -resize $size $file $thumb_dir/${file:$len}
+done
