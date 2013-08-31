@@ -2,6 +2,12 @@
 #More scripts at https://github.com/intermediatech/help-me-do-it
 # Released Under GPL v2 Licence
 
+if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]
+  then
+    echo "./web_skelton css_folder_name js_folder_name"
+    echo "Example: ./web_skelton css js"
+fi
+
 #CSS
 mkdir css
 cd css

@@ -3,6 +3,7 @@ if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]
   then
     echo "./img_resize <full> <thumbs> <size>"
     echo "Example: ./img_resize full thumbs 300x200"
+    exit
 fi
 
 full_dir=$1
