@@ -2,17 +2,20 @@
 #Author: Vishnu Pradeep
 #Email: intermedia.vishnu@gmail.com
 
-
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 
+   exit 1
+fi
 
 if [ -n "$1" ]; then
-	service apache2 stop 
-	service nginx stop  	
+	service apache2 stop &> /dev/null
+	service nginx stop &> /dev/null
 	if [ "$1" == a ]; then
-		service apache2 start 
+		service apache2 start &> /dev/null
 	elif [ "$1" == n ]; then
-		service nginx start 
+		service nginx start &> /dev/null
 	else
-		service apache2 start 
+		service apache2 start &> /dev/null
 	fi
 else
 	echo "No server specified. a for apache and n for nginx"
