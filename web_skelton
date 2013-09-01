@@ -1,5 +1,7 @@
 #!/bin/bash
-#More scripts at https://github.com/intermediatech/help-me-do-it
+# Author: Vishnu Pradeep
+# Email: intermedia.vishnu@gmail.com
+# More scripts at https://github.com/intermediatech/help-me-do-it
 # Released Under GPL v2 Licence
 
 if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]
