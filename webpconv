@@ -11,9 +11,15 @@ if [ -z "$1" ] || [ -z "$2" ]
     exit
 fi
 
+outputDir=$2
+startpos=$((${#1}+1))
+
 i=1;
 for file in $1/*.jpg
 do
- cwebp "$file" -o "webp/$i.webp"
+ filename=${file:startpos}
+ lpos=$((${#filename}-4))
+ outputfile=${filename:0:lpos}
+ cwebp "$file" -o "$outputDir/$outputfile.webp"
  ((i++));
 done
