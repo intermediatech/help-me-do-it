@@ -1,0 +1,19 @@
+#!/bin/bash
+# Author: Vishnu Pradeep
+# Email: intermedia.vishnu@gmail.com
+# More scripts at https://github.com/intermediatech/help-me-do-it
+# Released Under GPL v2 Licence
+
+if [ -z "$1" ] || [ -z "$2" ]
+  then
+    echo "./webpconv <input> <output>"
+    echo "Example: ./webpconv jpg webp"
+    exit
+fi
+
+i=1;
+for file in $1/*.jpg
+do
+ cwebp "$file" -o "webp/$i.webp"
+ ((i++));
+done
