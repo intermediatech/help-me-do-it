@@ -1,0 +1,30 @@
+#!/bin/bash
+db_name="moodle2"
+user="root"
+pass="root"
+file="db_backup.sql"
+
+function showhelp(){
+        	echo "     -bc     = create db backup and commit to git"
+	        echo "     -b      = create db backup"
+        	echo "     -r      = restore db from file"
+	        echo "-h or --help = displays this help msgs"
+}
+
+if  [ "$1" == "-bc" ]; then
+	mysqldump -u $user -p$pass $db_name > $file
+        git add $file
+	git add *
+	git commit -e
+	exit
+fi
+
+if [ "$1" == "-b" ]; then
+	mysqldump -u $user -p$pass $db_name > $file
+	exit
+elif [ "$1" == "-r" ]; then
+	mysql -u$user --password=$pass $db_name < $file
+	exit
+fi
+
+showhelp
