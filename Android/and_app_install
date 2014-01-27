@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Author: Vishnu Pradeep
+# Email: intermedia.vishnu@gmail.com
+# More scripts at https://github.com/intermediatech/help-me-do-it
+# Released Under GPL v2 Licence
+
+if [ -n "$1"  ]; then
+	adb install *$1*.apk
+else
+	echo "nothing passed"
+fi
