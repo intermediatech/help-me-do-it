@@ -60,8 +60,8 @@ echo "Setting up Downloader [Wget]"
 
 #Sublime text 3
 echo "Downloading Sublime Text 3"
-	#wget -c https://download.sublimetext.com/Sublime%20Text%202.0.2%20x64.tar.bz2 &> /dev/null
-	#mkdir Programs && tar xjf Sublime\ Text\ 2.0.2\ x64.tar.bz2 -C ~/Programs
+	wget -c https://download.sublimetext.com/Sublime%20Text%202.0.2%20x64.tar.bz2 &> /dev/null
+	mkdir Programs && tar xjf Sublime\ Text\ 2.0.2\ x64.tar.bz2 -C ~/Programs
 echo "Sublime installed to 'Programs' folder in home directory"
 
 
@@ -74,7 +74,7 @@ echo "Preparing system for installing composer"
 	apt-get install -y curl &> /dev/null
 
 echo "Installing composer"
-	#curl -sS https://getcomposer.org/installer | php
+	curl -sS https://getcomposer.org/installer | php
 
 echo '-------------------------------------------------'
 echo 'You are entering untested installtion phase'
