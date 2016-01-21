@@ -1,0 +1,101 @@
+#!/bin/bash
+# Author: Vishnu Pradeep
+# Email: intermedia.vishnu@gmail.com
+# More scripts at https://github.com/intermediatech/help-me-do-it
+# Released Under GPL v2 Licence
+
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 
+   exit 1
+fi
+
+function pause(){
+   	read -n1 -r -p "Press x to exit..." key
+	if [ "$key" = 'x' ]; then
+		echo ""
+    	exit 1
+    else
+    	#echo $key
+	fi
+}
+
+clear
+
+# Update System
+echo "Updating Repo URLs"
+	apt-get update &> /dev/null
+
+
+#Install Taskanager (htop)
+echo "Installing Taskmanager"
+	apt-get install -y htop &> /dev/null
+
+#installing LAMP
+echo "Preparing to install LAMP"
+	apt-get install -y tasksel &> /dev/null
+
+echo "Installing basic utils"
+	apt-get install -y nano &> /dev/null
+
+# php 5.6.4
+# Mysql 5.6+
+# Apache Apache/2.4.10
+echo "Installing LAMP"
+	apt-get install -y lamp-server^ &> /dev/null
+
+echo "Preparing the development folder"
+	mkdir ~/www &> /dev/null
+	rm /var/www/html -R &> /dev/null
+	ln -s ~/www/ /var/www/html &> /dev/null
+	chown www-data:www-data ~/www -R &> /dev/null
+
+# remove the index.html and put phpinfo file.
+echo "Putting phpinfo file..."
+	rm /var/www/html/index.html &> /dev/null	
+echo "<?php phpinfo(); ?>" > /var/www/html/index.php
+
+#Install Wget downloader
+echo "Setting up Downloader [Wget]"
+	apt-get install -y wget &> /dev/null
+
+#Sublime text 3
+echo "Downloading Sublime Text 3"
+	#wget -c https://download.sublimetext.com/Sublime%20Text%202.0.2%20x64.tar.bz2 &> /dev/null
+	#mkdir Programs && tar xjf Sublime\ Text\ 2.0.2\ x64.tar.bz2 -C ~/Programs
+echo "Sublime installed to 'Programs' folder in home directory"
+
+
+#install Git
+echo "Installing git"
+	apt-get install -y git &> /dev/null
+
+#composer
+echo "Preparing system for installing composer"
+	apt-get install -y curl &> /dev/null
+
+echo "Installing composer"
+	#curl -sS https://getcomposer.org/installer | php
+
+echo '-------------------------------------------------'
+echo 'You are entering untested installtion phase'
+echo 'There may be corrupted installtion(s)'
+echo '-------------------------------------------------'
+pause
+
+echo "Install Netbeans"
+	wget -c http://download.oracle.com/otn-pub/java/jdk-nb/8u71-8.1/jdk-8u71-nb-8_1-linux-x64.sh
+	chmod +x jdk-8u71-nb-8_1-linux-x64.sh
+	./jdk-8u71-nb-8_1-linux-x64.sh
+
+echo "Install and configure samba"
+	apt-get install -y samba &> /dev/null
+echo "Enter password for samba user"
+	smbpasswd -a `echo $USER`
+	mkdir ~/Shared &> /dev/null #Create a directory to be shared 
+	cp /etc/samba/smb.conf ~ #Make a safe backup copy of the original smb.conf file to your home folder, in case you make an error 
+
+	echo '' >> /etc/samba/smb.conf #Empty line to sperate contents
+	echo '[Shared]' >> /etc/samba/smb.conf
+	echo 'path = /home/'$USER'/Shared' >> /etc/samba/smb.conf
+	echo 'valid users = '$USER >> /etc/samba/smb.conf
+	echo 'read only = no' >> /etc/samba/smb.conf
