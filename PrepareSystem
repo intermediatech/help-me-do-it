@@ -10,7 +10,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 function pause(){
-   	read -n1 -r -p "Press x to exit..." key
+   	read -n1 -r -p "Press space to continue.. Press x to exit..." key
 	if [ "$key" = 'x' ]; then
 		echo ""
     	exit 1
@@ -82,13 +82,21 @@ echo 'There may be corrupted installtion(s)'
 echo '-------------------------------------------------'
 pause
 
+echo "Installing JDK 8"
+	add-apt-repository ppa:webupd8team/java
+	apt-get update &> /dev/null
+	echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+	apt-get install oracle-java8-installer
+	apt-get install oracle-java8-set-default
+
 echo "Install Netbeans"
-	wget -c http://download.oracle.com/otn-pub/java/jdk-nb/8u71-8.1/jdk-8u71-nb-8_1-linux-x64.sh
-	chmod +x jdk-8u71-nb-8_1-linux-x64.sh
-	./jdk-8u71-nb-8_1-linux-x64.sh
+	wget -c http://download.netbeans.org/netbeans/8.1/final/bundles/netbeans-8.1-linux.sh
+	chmod +x netbeans-8.1-linux.sh
+	./netbeans-8.1-linux.sh
 
 echo "Install and configure samba"
 	apt-get install -y samba &> /dev/null
+
 echo "Enter password for samba user"
 	smbpasswd -a `echo $USER`
 	mkdir ~/Shared &> /dev/null #Create a directory to be shared 
