@@ -1,0 +1,56 @@
+# Author: Vishnu Pradeep
+# Email: intermedia.vishnu@gmail.com
+# More scripts at https://github.com/intermediatech/help-me-do-it
+# Released Under GPL v2 Licence
+
+
+#========== Config Start ============
+url="https://www.google.com" #Address to check
+
+email_user="intermedia.vishnu@gmail.com"
+email_password="ygdfggavbtgffgg"
+
+notify_email="intermedia.vishnu@gmail.com" #Email to send mail when site down
+
+log_title="Google Server"
+log_filename="Google_Prod_Server"
+#==========  Config End  ============
+
+responseCode=`curl -k -o /dev/null --silent --head --write-out '%{http_code}\n' $url`
+
+case $responseCode in
+	"000")
+		status="Server Down/Inaccessible"
+		;;
+	"200")
+		status="Server is up and running"
+		;;
+	"404")
+		status="Server does not have given url"
+		;;
+	*)
+		status="Undefined error"
+		;;
+esac
+
+
+echo "["`date`"]"   [$log_title]  "[$responseCode] $status" >> $log_filename`date +%F`.log
+
+
+
+#==== Email Section ====
+
+if [ $responseCode != "200" ]; then
+cat >/tmp/`date +%F`.txt <<EOF
+From: <$email_user>
+To:   <$notify_email>
+Subject: [$log_title]  $status
+Date: `date`
+
+Hi Admin,
+Site is facing some issues. Please check it asap.
+
+[`date`] [RESPONSE CODE:$responseCode] $status
+EOF
+curl --url "smtps://smtp.gmail.com:465" --ssl-reqd --mail-from "$email_user" --mail-rcpt "$notify_email" --upload-file /tmp/`date +%F`.txt --user "$email_user:$email_password"
+fi
