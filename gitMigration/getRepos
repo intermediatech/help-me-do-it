@@ -1,0 +1,27 @@
+#!/bin/bash
+# Author: Vishnu Pradeep
+# Email: intermedia.vishnu@gmail.com
+# More scripts at https://github.com/intermediatech/help-me-do-it
+# Released Under GPL v2 Licence
+
+IFS=' '
+while read -r oldRepo newRepo
+do
+        repoName=`basename ${oldRepo:0:${#oldRepo}-4}`
+        if [ ! -d $repoName ];
+        then
+                git clone --mirror $oldRepo $repoName
+                cd $repoName
+                git remote add origin-new $newRepo
+                echo git push -u origin --all
+                echo git push -u origin --tags
+                cd ..
+                echo "Pushed $repoName to NewRepo -- `date`" >> RepoUpdate.log
+        else
+                echo "Updating $repoName in NewRepo -- `date`" >> RepoUpdate.log
+                cd $repoName 
+                git fetch origin #Plan B
+                git push --all $newRepo
+                cd ..
+        fi
+done < "RepoList"
